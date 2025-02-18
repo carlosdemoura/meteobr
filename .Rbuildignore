@@ -1,0 +1,4 @@
+^renv$
+^renv\.lock$
+^meteobr\.Rproj$
+^\.Rproj\.user$
