@@ -71,11 +71,16 @@ validate_dates = function(year = NULL, first.day, last.day) {
                  )
              )
 
-  stopifnot( "days must in the format yyyy/mm/dd or mm/dd" =
-               any(
-                 grepl(pattern_w_year,  first.day),
-                 grepl(pattern_wo_year, first.day)
-                 )
+  stopifnot( "days must in the format yyyy/mm/dd or mm/dd or pass just the year" =
+               (
+                 any(
+                   grepl(pattern_w_year,  first.day),
+                   grepl(pattern_wo_year, first.day)
+                   )
+                 | (
+                   !is.null(year) & all(is.na(c(first.day, last.day)))
+                   )
+               )
              )
 
   if (grepl(pattern_w_year, first.day)) {
@@ -88,6 +93,10 @@ validate_dates = function(year = NULL, first.day, last.day) {
   } else if (grepl(pattern_wo_year, first.day)) {
     first.day = paste0(year, "/", first.day)
     last.day  = paste0(year, "/", last.day)
+  } else if (!is.null(year)) {
+    first.day = paste0(year, "/01/01")
+    last.day  = paste0(year, "/12/31")
+
   }
 
   stopifnot( "last.day must be after first.day" =
@@ -131,6 +140,12 @@ fiat_years = function(first.day, last.day) {
   y
 }
 
+
+verify_hash = function(file) {
+  hashs = list("2004.fst" = "18546dd931bacbe338f09b4121eccf21")
+
+  hashs[[file]]
+}
 
 inmet.args = list(
   "date"                 = "Data",

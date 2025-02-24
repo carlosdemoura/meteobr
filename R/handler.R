@@ -43,7 +43,7 @@ get_inmet_raw_data_year = function(year, first.day = NA, last.day = NA, vars = N
       rev() |>
       purrr::pluck(5)
 
-    if (!(station %in% stations) & is.null(stations)) {
+    if (!(station %in% stations) & !is.null(stations)) {
       next
     }
 
@@ -116,14 +116,35 @@ get_data = function(first.day, last.day, vars = NULL, stations = NULL, type, sou
 
 
 set_data_locally = function(year, font = "github", path = NULL) {
-  stopifnot("font must be either github or inmet" =
+  stopifnot("font must be either 'github' or 'inmet'" =
               font %in% c("github", "inmet"))
 
   if (is.null(path)) {
-    path = tools::R_user_dir("meteobr", which = "data")
+    path = tools::R_user_dir("meteobr", which = "data") |>
+      {\(.) gsub("\\\\", "/", .)}()
   }
 
   file = year |>
-    {\(.) paste0( "br_", ., ifelse(font == "github", ".fst", ".zip") ) }()
+    paste0(ifelse(font == "github", ".fst", ".zip"))
+
+  if ( file.exists(file.path(path, file)) ) {
+    if ( tools::md5sum(file.path(path, file)) == verify_hash(file) ) {
+      return("file already available locally")
+    } else {
+      stop(paste0("a different file with the same name is where the local file should be, you must manually clean ", file.path(path, file)))
+    }
+  }
+
+  if (font == "inmet") {
+    "https://portal.inmet.gov.br/uploads/dadoshistoricos/" |>
+      paste0(file) |>
+      download.file(file.path(path, file))
+  } else if (font == "github") {
+    "https://github.com/carlosdemoura/meteobr/tree/master/data/" |>
+      paste0(file) |>
+      download.file(file.path(path, file))
+
+  }
+
 
 }
