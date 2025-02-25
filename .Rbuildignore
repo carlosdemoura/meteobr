@@ -4,8 +4,5 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
-<<<<<<< HEAD
 ^data/repo$
 ^data-raw$
-=======
->>>>>>> 501d05d60fecca2ed93bee86c6bed3afcf686da0
