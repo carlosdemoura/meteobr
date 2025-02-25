@@ -1,10 +1,19 @@
 Package: meteobr
+<<<<<<< HEAD
 Title: Meteorological Data From Brazil.
 Version: 0.0.0.9000
 Authors@R: 
     person("Carlos", "de Moura", , "contact@carlosdemoura.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: There are some functions to process Brazil's INMET meteorological data.
+=======
+Title: Meteorological Data from Brazil.
+Version: 0.0.0.9000
+Authors@R: 
+    person("Carlos", "de Moura", , "lcbarrosdemoura@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: meteobr is not exactly an r package (maybe a draft). I just (poorly) wrote some functions to process Brazil's INMET meteorological data and put the filtered results in the data folder. The functions I used are in the R folder.
+>>>>>>> 501d05d60fecca2ed93bee86c6bed3afcf686da0
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
