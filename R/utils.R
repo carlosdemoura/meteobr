@@ -35,13 +35,11 @@ adjust_lines_csv = function(year, first.day, last.day) {
 
 
 validate_dates = function(year = NULL, first.day, last.day) {
-  dplyr::`%>%`
-
   pattern_wo_year = "^\\d{2}[-/]\\d{2}$"
 
   stopifnot( "days must both be in the format or mm-dd or pass just the year" =
                all(
-                 grepl(pattern_wo_year, c(first.day, last.day)),
+                 grepl(pattern_wo_year, c(first.day, last.day)) | all(is.na(c(first.day, last.day))),
                  !is.null(year)
             ))
 
@@ -54,19 +52,17 @@ validate_dates = function(year = NULL, first.day, last.day) {
   }
 
   stopifnot( "last.day must be after first.day" =
-               c(first.day, last.day) %>%
-               {lubridate::ymd(.[2]) - lubridate::ymd(.[1])} %>%
-               {as.integer(.) > 0 })
+               c(first.day, last.day) |>
+               {\(.) lubridate::ymd(.[2]) - lubridate::ymd(.[1])}() |>
+               {\(.) as.integer(.) > 0 }() )
 
   list(first.day, last.day)
 }
 
 
 fiat_years = function(first.day, last.day) {
-  dplyr::`%>%`
-
-  years = lubridate::year(c(first.day, last.day)) %>%
-    {seq(.[1], .[2])}
+  years = lubridate::year(c(first.day, last.day)) |>
+    {\(.) seq(.[1], .[2])}()
 
   x = list()
   for (year in as.character(years)) {

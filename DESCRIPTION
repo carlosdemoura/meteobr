@@ -1,5 +1,5 @@
 Package: meteobr
-Title: Meteorological Data from Brazil.
+Title: Meteorological Data From Brazil.
 Version: 0.0.0.9000
 Authors@R: 
     person("Carlos", "de Moura", , "lcbarrosdemoura@gmail.com", role = c("aut", "cre"),

@@ -1,5 +1,4 @@
-get_inmet_data = function(year, first.day = NA, last.day = NA, vars = NULL, stations = NULL, local.path = local_data()) {
-  dplyr::`%>%`
+get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NULL, stations = NULL, local.path = local_data()) {
 
   csv.lines = validate_dates(year, first.day, last.day) %>%
     {adjust_lines_csv(year, .[[1]], .[[2]])}
@@ -51,8 +50,8 @@ get_inmet_data = function(year, first.day = NA, last.day = NA, vars = NULL, stat
       ) %>%
       dplyr::select(!c(day, hour)) %>%
       dplyr::mutate(
-        dplyr::across(!c(station, time), stringr::str_replace, ",", "."),
-        dplyr::across(!c(station, time), as.numeric)
+        dplyr::across(!c(station, time), \(x) stringr::str_replace(x, ",", ".")),
+        dplyr::across(!c(station, time), \(x) as.numeric(x))
       ) %>%
       dplyr::relocate(c(station, time))
 
@@ -71,7 +70,7 @@ set_data_locally = function(years = 2000:2024) {
               all(years %in% 2000:2024))
 
   for (year in years) {
-    "https://permalink.carlosdemoura.com/meteobr/repo/" |>
+    "https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/" |>
       paste0(year, ".Rdata") |>
       download.file(paste0(local_data(), "/", year, ".Rdata"))
   }

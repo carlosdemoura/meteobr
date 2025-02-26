@@ -6,3 +6,4 @@
 ^README\.Rmd$
 ^data/repo$
 ^data-raw$
+^logo_meteobr$
