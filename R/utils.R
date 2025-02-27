@@ -1,4 +1,4 @@
-adjust_lines_csv = function(year, first.day, last.day) {
+get_csv_lines = function(year, first.day, last.day) {
   between.days = c(first.day, last.day)
 
   for (i in 1:2) {
@@ -15,7 +15,7 @@ adjust_lines_csv = function(year, first.day, last.day) {
 
   if (year == 2000) {
     if (csv.lines[2] < first_day_2000) {
-      return( data.frame() )
+      stop("There was no data collected before 2000-May-07")
     }
 
     if (csv.lines[1] < first_day_2000) {
@@ -34,7 +34,9 @@ adjust_lines_csv = function(year, first.day, last.day) {
 }
 
 
-validate_dates = function(year = NULL, first.day, last.day) {
+validate_dates = function(year, first.day, last.day) {
+  stopifnot( "only data between 2000 & 2024 is available" = year %in% 2000:2024 )
+
   pattern_wo_year = "^\\d{2}[-/]\\d{2}$"
 
   stopifnot( "days must both be in the format or mm-dd or pass just the year" =
@@ -76,12 +78,6 @@ fiat_years = function(first.day, last.day) {
 }
 
 
-local_data = function() {
-  tools::R_user_dir("meteobr", which = "data") |>
-    {\(.) gsub("\\\\", "/", .)}()
-}
-
-
 get_hash = function(file.arg) {
   import_rdata("R/info_raw_data.Rdata") |>
     dplyr::filter(file == file.arg) |>
@@ -96,6 +92,19 @@ import_rdata = function(file) {
   load(file, envir = env)
   x = ls(env)
   get(x, envir = env)
+}
+
+
+#' Get where data is stored
+#'
+#' Get where on your PC the package data is being stored.
+#'
+#' @return A string, folder path.
+#' @export
+#'
+local_data = function() {
+  tools::R_user_dir("meteobr", which = "data") |>
+    {\(.) gsub("\\\\", "/", .)}()
 }
 
 

@@ -1,7 +1,29 @@
-get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NULL, stations = NULL, local.path = local_data()) {
+#' Download Original Data From INMET Website by Year
+#'
+#' Download data of a specific year from the official INMET website and prepreprocess it.
+#'
+#' @param year                Integer number between 2000 and 2024.
+#' @param first.day,last.day  String in the format "mm-dd". If NA (default), the first/last day of the year is considered.
+#' @param vars                Variables to be collected. If NULL (default), all variables are collected.
+#' @param stations            Stations to be collected. If NULL (default), all stations are collected.
+#'
+#' @return A `tibble()` containing data from all selected `stations` and `vars` in that `year` (or the part of it specified by `first.day` & `last.day`).
+#' Errors may arise if:
+#' * `year` is not specified.
+#' * You're trying to collect data before 2000-May-07.
+#' * `fist.day` doesn't comes before `last.day`.
+#' * `first.day` & `last.day` aren't passed together.
+#' * Your PC is not connected to the web.
+#'
+#' @section If you're trying to collect data before  you're going to get and empty `data.frame()`.
+#'
+#' @export
+#'
+#' @examples
+get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NULL, stations = NULL) {
 
   csv.lines = validate_dates(year, first.day, last.day) %>%
-    {adjust_lines_csv(year, .[[1]], .[[2]])}
+    {get_csv_lines(year, .[[1]], .[[2]])}
 
   main_dir = file.path(tempdir(), paste0("meteobr_", year))
 
@@ -65,18 +87,41 @@ get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NU
 }
 
 
+#' Download preprocessed data
+#'
+#' Download preprocessed .Rdata files and store it locally.
+#'
+#' @param years Vector of integers between 2000 and 2024.
+#'
+#' @return
+#' @export
+#'
+#' @examples
 set_data_locally = function(years = 2000:2024) {
   stopifnot("year(s) must be between 2000 & 2004" =
               all(years %in% 2000:2024))
 
   for (year in years) {
-    "https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/" |>
+    "https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/repo/" |>
       paste0(year, ".Rdata") |>
       download.file(paste0(local_data(), "/", year, ".Rdata"))
   }
 }
 
 
+#' Get data between dates.
+#'
+#' `get_data()` does this. Beware that this function, check `local_data()` to see more.
+#'
+#' @param first.day  String like "mm-dd".
+#' @param last.day   String like "mm-dd".
+#' @param vars       (optional) Variables to be collected.
+#' @param stations   (optional) Stations to be collected.
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_data = function(first.day, last.day, vars = NULL, stations = NULL) {
   years = fiat_years(first.day, last.day)
 
