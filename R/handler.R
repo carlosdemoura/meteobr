@@ -1,6 +1,6 @@
-#' Download Original Data From INMET Website by Year
+#' Get data from INMET website by year
 #'
-#' Download data of a specific year from the official INMET website and prepreprocess it.
+#' `get_inmet_data_by_year()` downloads data of a specific year from the official INMET website and prepreprocess it.
 #'
 #' @param year                Integer number between 2000 and 2024.
 #' @param first.day,last.day  String in the format "mm-dd". If NA (default), the first/last day of the year is considered.
@@ -12,14 +12,25 @@
 #' * `year` is not specified.
 #' * You're trying to collect data before 2000-May-07.
 #' * `fist.day` doesn't comes before `last.day`.
-#' * `first.day` & `last.day` aren't passed together.
-#' * Your PC is not connected to the web.
+#' * Just one of `first.day` & `last.day` is passed.
+#' * Your PC is not connected to the internet.
 #'
-#' @section If you're trying to collect data before  you're going to get and empty `data.frame()`.
+#' @section If you're trying to collect data of the year 2000 and the `first.day` is before 2000-May-07, you're only getting data from 2000-May-07 and beyond because that was (allegedly) the day INMET automatic stations began operations. Note that some stations began collecting data some days after 2000-May-07.
+#'
+#' @examples
+#' # Should get all 2000 data.
+#' try(get_inmet_data_by_year(2000))
+#'
+#' \dontrun{
+#' # `first.day` & `last.day` must be in format mm-dd, here the code wouldn't run because it is in the format yyyy-mm-dd.
+#' get_inmet_data_by_year(2000, first.day = "2000-01-01", last.day = "2000-12-31")
+#' }
 #'
 #' @export
 #'
-#' @examples
+#' @import dplyr
+#' @import purrr
+#' @import lubridate
 get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NULL, stations = NULL) {
 
   csv.lines = validate_dates(year, first.day, last.day) %>%
@@ -87,19 +98,56 @@ get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NU
 }
 
 
+#' Get data from GitHub repo
+#'
+#' @param year
+#'
+#' @return `tibble()`
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' get_r_data_by_year(2000)
+#' }
+get_r_data_by_year = function(year) {
+  main_dir = file.path(tempdir(), paste0("meteobr_", year))
+  if (dir.exists(main_dir)) unlink(main_dir, recursive = T)
+  dir.create(main_dir)
+
+  "https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/repo/" |>
+    paste0(year, ".Rdata") |>
+    download.file( file.path(main_dir, paste0(year, ".Rdata")), mode = "wb" )
+
+  data = import_rdata( file.path(main_dir, paste0(year, ".Rdata")) )
+
+  unlink(main_dir, recursive = T)
+
+  data
+}
+
+
 #' Download preprocessed data
 #'
 #' Download preprocessed .Rdata files and store it locally.
 #'
 #' @param years Vector of integers between 2000 and 2024.
 #'
-#' @return
-#' @export
+#' @return Logical.
+#' * `TRUE`  if the required .Rdata is available in `local_data()`.
+#' * `FALSE` if not.
 #'
 #' @examples
+#' \dontrun{
+#' set_data_locally()
+#' # Should download all data available on <https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/repo/> and store it where `local_data()` says.
+#' }
+#'
+#' @export
 set_data_locally = function(years = 2000:2024) {
   stopifnot("year(s) must be between 2000 & 2004" =
               all(years %in% 2000:2024))
+
+  if (!dir.exists(local_data())) dir.create(local_data(), recursive = T)
 
   for (year in years) {
     "https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/repo/" |>
@@ -118,10 +166,19 @@ set_data_locally = function(years = 2000:2024) {
 #' @param vars       (optional) Variables to be collected.
 #' @param stations   (optional) Stations to be collected.
 #'
-#' @return
-#' @export
+#' @return A `tibble()`.
 #'
 #' @examples
+#' #' Should return `humidity` data from `station` A001 collected between 2019-april-02 & 2022-november-08.
+#' \dontrun{
+#' get_data(first.day = "2019-04-02", last.day = "2022-11-08", vars = "humidity", stations = "A001")
+#' }
+#'
+#' @export
+#'
+#' @import magrittr
+#' @import lubridate
+#' @import tools
 get_data = function(first.day, last.day, vars = NULL, stations = NULL) {
   years = fiat_years(first.day, last.day)
 
@@ -134,14 +191,23 @@ get_data = function(first.day, last.day, vars = NULL, stations = NULL) {
       any(
         !file.exists(file.path),
         tools::md5sum(file.path) != get_hash(paste0(year, ".Rdata"))
-      )) { set_data_locally(year) }
+      )) {
+      res = try( set_data_locally(year) )
+
+      if (class(res) == "try-error") {
+        data = get_r_data_by_year(year)
+      } else {
+        data = file.path %>%
+          import_rdata()
+      }
+    }
+
 
     int = years[[as.character(year)]] %>%
       {validate_dates(year, .$first.day, .$last.day)} %>%
       {lubridate::interval(lubridate::ymd(.[[1]]), lubridate::ymd(.[[2]]))}
 
-    data = file.path %>%
-      import_rdata() %>%
+    data = data %>%
       { if (lubridate::int_length(int) / 86400 < 364)
         dplyr::filter(., lubridate::ymd_h(.data$time) %within% int)
         else . } %>%

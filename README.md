@@ -1,12 +1,13 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# meteobr
+# meteobr <a href="https://github.com/carlosdemoura/meteobr"><img src="logo_meteobr/meteobr.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of meteobr is to …
+The goal of `meteobr` is to provide an easy way to get data from the automated meteorological stations of Brazil's [National Institute of Meteorology](https://pt.wikipedia.org/wiki/Instituto_Nacional_de_Meteorologia). These stations provide, at each hour of every day between 2000-2024, a plethora of useful data (see below).
+
+It's worth mentioning
+
 
 | column name            | Original name                                          |
 |------------------------|--------------------------------------------------------|
@@ -31,12 +32,12 @@ The goal of meteobr is to …
 
 ## Installation
 
-You can install the development version of meteobr like so:
+You can install the development version of meteobr from [GitHub](https://github.com/carlosdemoura/meteobr/) with:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+# install.packages("devtools")
+devtools::install_github("carlosdemoura/UltimaFlorDoLacio")
 ```
-
 
 ## Example
 
@@ -44,17 +45,7 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(meteobr)
-## basic example code
+
+
+
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.

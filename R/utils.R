@@ -87,6 +87,9 @@ get_hash = function(file.arg) {
 }
 
 
+#' Get data
+#'
+#' @export
 import_rdata = function(file) {
   env = new.env()
   load(file, envir = env)
@@ -101,29 +104,7 @@ import_rdata = function(file) {
 #'
 #' @return A string, folder path.
 #' @export
-#'
 local_data = function() {
   tools::R_user_dir("meteobr", which = "data") |>
     {\(.) gsub("\\\\", "/", .)}()
 }
-
-
-inmet.args = list(
-  "precipitation"        = "PRECIPITAÇÃO TOTAL, HORÁRIO (mm)",
-  "atm_pressure"         = "PRESSAO ATMOSFERICA AO NIVEL DA ESTACAO, HORARIA (mB)",
-  "atm_pressure_max"     = "PRESSÃO ATMOSFERICA MAX.NA HORA ANT. (AUT) (mB)",
-  "atm_pressure_min"     = "PRESSÃO ATMOSFERICA MIN. NA HORA ANT. (AUT) (mB)",
-  "radiation"            = "RADIACAO GLOBAL (Kj/m²)",
-  "temperature_air"      = "TEMPERATURA DO AR - BULBO SECO, HORARIA (°C)",
-  "temperature_dew"      = "TEMPERATURA DO PONTO DE ORVALHO (°C)",
-  "temperature_max"      = "TEMPERATURA MÁXIMA NA HORA ANT. (AUT) (°C)",
-  "temperature_min"      = "TEMPERATURA MÍNIMA NA HORA ANT. (AUT) (°C)",
-  "temperature_dew_max"  = "TEMPERATURA ORVALHO MAX. NA HORA ANT. (AUT) (°C)",
-  "temperature_dew_min"  = "TEMPERATURA ORVALHO MIN. NA HORA ANT. (AUT) (°C)",
-  "humidity_max"         = "UMIDADE REL. MAX. NA HORA ANT. (AUT) (%)",
-  "humidity_min"         = "UMIDADE REL. MIN. NA HORA ANT. (AUT) (%)",
-  "humidity"             = "UMIDADE RELATIVA DO AR, HORARIA (%)",
-  "wind_direction"       = "VENTO, DIREÇÃO HORARIA (gr) (° (gr))",
-  "wind_burst_max"       = "VENTO, RAJADA MAXIMA (m/s)",
-  "wind_burst"           = "VENTO, VELOCIDADE HORARIA (m/s)"
-)

@@ -2,13 +2,29 @@
 % Please edit documentation in R/handler.R
 \name{get_data}
 \alias{get_data}
-\title{Title}
+\title{Get data between dates.}
 \usage{
 get_data(first.day, last.day, vars = NULL, stations = NULL)
 }
 \arguments{
-\item{stations}{}
+\item{first.day}{String like "mm-dd".}
+
+\item{last.day}{String like "mm-dd".}
+
+\item{vars}{(optional) Variables to be collected.}
+
+\item{stations}{(optional) Stations to be collected.}
+}
+\value{
+A \code{tibble()}.
 }
 \description{
-Title
+\code{get_data()} does this. Beware that this function, check \code{local_data()} to see more.
+}
+\examples{
+#' Should return `humidity` data from `station` A001 collected between 2019-april-02 & 2022-november-08.
+\dontrun{
+get_data(first.day = "2019-04-02", last.day = "2022-11-08", vars = "humidity", stations = "A001")
+}
+
 }

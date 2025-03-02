@@ -2,20 +2,50 @@
 % Please edit documentation in R/handler.R
 \name{get_inmet_data_by_year}
 \alias{get_inmet_data_by_year}
-\title{Title}
+\title{Get data from INMET website by year}
 \usage{
 get_inmet_data_by_year(
   year,
   first.day = NA,
   last.day = NA,
   vars = NULL,
-  stations = NULL,
-  local.path = local_data()
+  stations = NULL
 )
 }
 \arguments{
-\item{local.path}{}
+\item{year}{Integer number between 2000 and 2024.}
+
+\item{first.day, last.day}{String in the format "mm-dd". If NA (default), the first/last day of the year is considered.}
+
+\item{vars}{Variables to be collected. If NULL (default), all variables are collected.}
+
+\item{stations}{Stations to be collected. If NULL (default), all stations are collected.}
+}
+\value{
+A \code{tibble()} containing data from all selected \code{stations} and \code{vars} in that \code{year} (or the part of it specified by \code{first.day} & \code{last.day}).
+Errors may arise if:
+\itemize{
+\item \code{year} is not specified.
+\item You're trying to collect data before 2000-May-07.
+\item \code{fist.day} doesn't comes before \code{last.day}.
+\item Just one of \code{first.day} & \code{last.day} is passed.
+\item Your PC is not connected to the internet.
+}
 }
 \description{
-Title
+\code{get_inmet_data_by_year()} downloads data of a specific year from the official INMET website and prepreprocess it.
+}
+\section{If you're trying to collect data of the year 2000 and the \code{first.day} is before 2000-May-07, you're only getting data from 2000-May-07 and beyond because that was (allegedly) the day INMET automatic stations began operations. Note that some stations began collecting data some days after 2000-May-07.}{
+NA
+}
+
+\examples{
+# Should get all 2000 data.
+try(get_inmet_data_by_year(2000))
+
+\dontrun{
+# `first.day` & `last.day` must be in format mm-dd, here the code wouldn't run because it is in the format yyyy-mm-dd.
+get_inmet_data_by_year(2000, first.day = "2000-01-01", last.day = "2000-12-31")
+}
+
 }

@@ -4,7 +4,7 @@ test_that("get_csv_lines() works", {
 
 
 test_that("validate_dates() works", {
-  expect_error(NULL, NA, NA)
+  expect_error(validate_dates(NULL, NA, NA))
   expect_equal(2 * 2, 4)
 })
 

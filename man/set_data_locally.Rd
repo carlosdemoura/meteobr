@@ -2,13 +2,27 @@
 % Please edit documentation in R/handler.R
 \name{set_data_locally}
 \alias{set_data_locally}
-\title{Title}
+\title{Download preprocessed data}
 \usage{
 set_data_locally(years = 2000:2024)
 }
 \arguments{
-\item{years}{}
+\item{years}{Vector of integers between 2000 and 2024.}
+}
+\value{
+Logical.
+\itemize{
+\item \code{TRUE}  if the required .Rdata is available in \code{local_data()}.
+\item \code{FALSE} if not.
+}
 }
 \description{
-Title
+Download preprocessed .Rdata files and store it locally.
+}
+\examples{
+\dontrun{
+set_data_locally()
+# Should download all data available on <https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/repo/> and store it where `local_data()` says.
+}
+
 }
