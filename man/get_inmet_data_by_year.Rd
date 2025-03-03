@@ -15,14 +15,18 @@ get_inmet_data_by_year(
 \arguments{
 \item{year}{Integer number between 2000 and 2024.}
 
-\item{first.day, last.day}{String in the format "mm-dd". If NA (default), the first/last day of the year is considered.}
+\item{first.day, last.day}{String in the format "mm-dd". If NA (default), the
+first/last day of the year is considered.}
 
-\item{vars}{Variables to be collected. If NULL (default), all variables are collected.}
+\item{vars}{Variables to be collected. If NULL (default), all
+variables are collected.}
 
-\item{stations}{Stations to be collected. If NULL (default), all stations are collected.}
+\item{stations}{Stations to be collected. If NULL (default), all
+stations are collected.}
 }
 \value{
-A \code{tibble()} containing data from all selected \code{stations} and \code{vars} in that \code{year} (or the part of it specified by \code{first.day} & \code{last.day}).
+A \code{tibble()} containing data from all selected \code{stations} and \code{vars}
+in that \code{year} (or the part of it specified by \code{first.day} & \code{last.day}).
 Errors may arise if:
 \itemize{
 \item \code{year} is not specified.
@@ -33,19 +37,26 @@ Errors may arise if:
 }
 }
 \description{
-\code{get_inmet_data_by_year()} downloads data of a specific year from the official INMET website and prepreprocess it.
+\code{get_inmet_data_by_year()} downloads data of a specific year from the
+official INMET website and prepreprocess it.
 }
-\section{If you're trying to collect data of the year 2000 and the \code{first.day} is before 2000-May-07, you're only getting data from 2000-May-07 and beyond because that was (allegedly) the day INMET automatic stations began operations. Note that some stations began collecting data some days after 2000-May-07.}{
-NA
+\section{First day in record}{
+
+If you're trying to collect data of the year 2000 and the
+\code{first.day} is before 2000-May-07, you're only getting data from
+2000-May-07 and beyond because that was (allegedly) the day INMET automatic
+stations began operations. Note that some stations began collecting actual
+data some days after 2000-May-07.
 }
 
 \examples{
-# Should get all 2000 data.
-try(get_inmet_data_by_year(2000))
-
 \dontrun{
-# `first.day` & `last.day` must be in format mm-dd, here the code wouldn't run because it is in the format yyyy-mm-dd.
+# `first.day` & `last.day` must be in format mm-dd, here the code wouldn't run
+# because it is in the format yyyy-mm-dd.
 get_inmet_data_by_year(2000, first.day = "2000-01-01", last.day = "2000-12-31")
+
+# This Should get all 2000 data.
+get_inmet_data_by_year(2000)
 }
 
 }

@@ -7,7 +7,8 @@
 set_data_locally(years = 2000:2024)
 }
 \arguments{
-\item{years}{Vector of integers between 2000 and 2024.}
+\item{years}{Vector of integers between 2000 and 2024; if no value is passed,
+the DEFAULT is to download all data.}
 }
 \value{
 Logical.
@@ -17,12 +18,15 @@ Logical.
 }
 }
 \description{
-Download preprocessed .Rdata files and store it locally.
+\code{set_data_locally()} downloads .Rdata files and stores it locally without the
+hassle of unzipping and processing them.
 }
 \examples{
 \dontrun{
+# Should download all data available on
+# <https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/repo/>
+# and store it where `local_data()` says.
 set_data_locally()
-# Should download all data available on <https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/repo/> and store it where `local_data()` says.
 }
 
 }

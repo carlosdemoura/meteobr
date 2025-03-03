@@ -78,16 +78,9 @@ fiat_years = function(first.day, last.day) {
 }
 
 
-get_hash = function(file.arg) {
-  import_rdata("R/info_raw_data.Rdata") |>
-    dplyr::filter(file == file.arg) |>
-    dplyr::select(hash) |>
-    purrr::pluck(1) |>
-    unname()
-}
-
-
-#' Get data
+#' Put .Rdata or .rda data in variable
+#'
+#' @param file file path
 #'
 #' @export
 import_rdata = function(file) {
@@ -103,8 +96,13 @@ import_rdata = function(file) {
 #' Get where on your PC the package data is being stored.
 #'
 #' @return A string, folder path.
+#'
 #' @export
+#'
+#' @import tools
+#' @import purrr
 local_data = function() {
   tools::R_user_dir("meteobr", which = "data") |>
-    {\(.) gsub("\\\\", "/", .)}()
+    {\(.) gsub("\\\\", "/", .)}() |>
+    purrr::pluck(1)
 }

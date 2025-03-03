@@ -2,10 +2,13 @@
 % Please edit documentation in R/utils.R
 \name{import_rdata}
 \alias{import_rdata}
-\title{Get data}
+\title{Put .Rdata or .rda data in variable}
 \usage{
 import_rdata(file)
 }
+\arguments{
+\item{file}{file path}
+}
 \description{
-Get data
+Put .Rdata or .rda data in variable
 }

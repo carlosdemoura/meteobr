@@ -2,7 +2,7 @@
 % Please edit documentation in R/handler.R
 \name{get_data}
 \alias{get_data}
-\title{Get data between dates.}
+\title{Get data between dates}
 \usage{
 get_data(first.day, last.day, vars = NULL, stations = NULL)
 }
@@ -19,11 +19,13 @@ get_data(first.day, last.day, vars = NULL, stations = NULL)
 A \code{tibble()}.
 }
 \description{
-\code{get_data()} does this. Beware that this function, check \code{local_data()} to see more.
+\code{get_data()} does this. Beware that this function, check \code{local_data()} to
+see more.
 }
 \examples{
-#' Should return `humidity` data from `station` A001 collected between 2019-april-02 & 2022-november-08.
 \dontrun{
+# Should return `humidity` data from `station` A001 collected between 2019-april-02
+# & 2022-november-08.
 get_data(first.day = "2019-04-02", last.day = "2022-11-08", vars = "humidity", stations = "A001")
 }
 

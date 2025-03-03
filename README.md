@@ -36,7 +36,7 @@ You can install the development version of meteobr from [GitHub](https://github.
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("carlosdemoura/UltimaFlorDoLacio")
+devtools::install_github("carlosdemoura/meteobr")
 ```
 
 ## Example

@@ -1,5 +1,5 @@
 Package: meteobr
-Title: Meteorological Data From Brazil.
+Title: Meteorological Data From Brazil
 Version: 0.0.0.9000
 Authors@R: 
     person("Carlos", "de Moura", , "lcbarrosdemoura@gmail.com", role = c("aut", "cre"),
@@ -13,9 +13,15 @@ Suggests:
     testthat (>= 3.0.0)
 Imports:
     dplyr,
-    lubridate,
-    magrittr,
-    purrr
+    purrr,
+    tools,
+    utils,
+    tibble,
+    stringr,
+    lubridate
 Config/testthat/edition: 3
 URL: https://github.com/carlosdemoura/meteobr
 BugReports: https://github.com/carlosdemoura/meteobr/issues
+Depends: 
+    R (>= 2.10)
+LazyData: true
