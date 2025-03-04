@@ -158,7 +158,7 @@ set_data_locally = function(years = 2000:2024) {
     }
 
     url = paste0("https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/repo/", year, ".Rdata")
-    answer = try(utils::download.file(url, local_path, quiet = T))
+    answer = try(utils::download.file(url, local_path, quiet = T, mode = "wb"))
 
     cat(year, "\t", round(info_repo[,"size"], 2), "Mb\t\t")
     if ( inherits(answer, "try-error") ) {
