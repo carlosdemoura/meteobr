@@ -222,7 +222,7 @@ get_data = function(first.day, last.day, vars = NULL, stations = NULL) {
         else . }() |>
       {\(.)
         if (!is.null(vars))
-        dplyr::select(., all_of(c("time", vars)))
+        dplyr::select(., all_of(c("time", "station", vars)))
         else . }()
 
     full_data = rbind(full_data, data)

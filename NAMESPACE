@@ -2,9 +2,9 @@
 
 export(get_data)
 export(get_inmet_data_by_year)
-export(import_rdata)
 export(local_data)
 export(set_data_locally)
+export(import_rdata)
 import(dplyr)
 import(lubridate)
 import(purrr)

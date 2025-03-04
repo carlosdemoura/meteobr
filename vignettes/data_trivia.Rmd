@@ -1,0 +1,86 @@
+---
+title: "data trivia"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{data_trivia}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# Data trivia
+
+Let's setup our environment.
+
+```{r, eval = FALSE}
+library(meteobr)
+```
+
+
+## Meteorological data
+
+```{r, eval = FALSE}
+df = get_data(first.day = "2001-01-01", last.day = "2001-01-02")
+head(df)
+```
+
+| Column name            | Original name                                          | Unity   |
+|------------------------|--------------------------------------------------------|---------|
+| `precipitation`        | PRECIPITAÇÃO TOTAL, HORÁRIO (mm)                       | mm      |
+| `atm_pressure`         | PRESSAO ATMOSFERICA AO NIVEL DA ESTACAO, HORARIA (mB)  | mB      |
+| `atm_pressure_max`     | PRESSÃO ATMOSFERICA MAX.NA HORA ANT. (AUT) (mB)        | mB      |
+| `atm_pressure_min`     | PRESSÃO ATMOSFERICA MIN. NA HORA ANT. (AUT) (mB)       | mB      |
+| `radiation`            | RADIACAO GLOBAL (Kj/m²)                                | Kj/m²   |
+| `temperature_air`      | TEMPERATURA DO AR - BULBO SECO, HORARIA (°C)           | °C      |
+| `temperature_dew`      | TEMPERATURA DO PONTO DE ORVALHO (°C)                   | °C      |
+| `temperature_max`      | TEMPERATURA MÁXIMA NA HORA ANT. (AUT) (°C)             | °C      |
+| `temperature_min`      | TEMPERATURA MÍNIMA NA HORA ANT. (AUT) (°C)             | °C      |
+| `temperature_dew_max`  | TEMPERATURA ORVALHO MAX. NA HORA ANT. (AUT) (°C)       | °C      |
+| `temperature_dew_min`  | TEMPERATURA ORVALHO MIN. NA HORA ANT. (AUT) (°C)       | °C      |
+| `humidity_max`         | UMIDADE REL. MAX. NA HORA ANT. (AUT) (%)               | %       |
+| `humidity_min`         | UMIDADE REL. MIN. NA HORA ANT. (AUT) (%)               | %       |
+| `humidity`             | UMIDADE RELATIVA DO AR, HORARIA (%)                    | %       |
+| `wind_direction`       | VENTO, DIREÇÃO HORARIA (gr) (° (gr))                   | ° (dgr) |
+| `wind_burst_max`       | VENTO, RAJADA MAXIMA (m/s)                             | m/s     |
+| `wind_burst`           | VENTO, VELOCIDADE HORARIA (m/s)                        | m/s     |
+
+
+## Stations data
+
+```{r, eval = FALSE}
+head(stations)
+```
+
+| Column         | Description                                                |
+|----------------|------------------------------------------------------------|
+| `station.id`   | INMET's id of the station                                  |
+| `station.name` | original name of the station on INMET's website            |
+| `town.id`      | IBGE code for station's town                               |
+| `town.name`    | name of the town in which station is located, standardized |
+| `state`        | state in which the station is located (abbreviation)       |
+| `region`       | national region in which the station is located            |
+| `lat`          | latitude of the station (meters)                           |
+| `lon`          | longitude of the station (meters)                          |
+| `alt`          | altitude of the station (meters)                           |
+
+
+## Repository data
+
+```{r, eval = FALSE}
+head(info_repo)
+```
+
+| Column | Description                  |
+|--------|------------------------------|
+| `year` | file's year                  |
+| `type` | type: either Rdata, zip, fst |
+| `file` | full file name               |
+| `size` | size in Mb                   |
+| `hash` | md5 hash                     |
