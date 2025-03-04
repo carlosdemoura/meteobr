@@ -47,8 +47,8 @@
 #' @import lubridate
 get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NULL, stations = NULL) {
 
-  csv.lines = validate_dates(year, first.day, last.day) %>%
-    {get_csv_lines(year, .[[1]], .[[2]])}
+  csv.lines = validate_dates(year, first.day, last.day) |>
+    {\(.) get_csv_lines(year, .[[1]], .[[2]])}()
 
   main_dir = file.path(tempdir(), paste0("meteobr_", year))
 
@@ -71,36 +71,36 @@ get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NU
   full_data = data.frame()
 
   for ( file in files ) {
-    station = file |>
-      strsplit("_") |>
+    station = file    |>
+      strsplit("_")   |>
       purrr::pluck(1) |>
-      rev() |>
+      rev()           |>
       purrr::pluck(5)
 
     if (!(station %in% stations) & !is.null(stations)) {
       next
     }
 
-    data = file %>%
-      utils::read.csv(skip = csv.lines[1], nrows = diff(csv.lines), sep = ";", header = F) %>%
-      dplyr::select(!last_col()) %>%
+    data = file |>
+      utils::read.csv(skip = csv.lines[1], nrows = diff(csv.lines), sep = ";", header = F) |>
+      dplyr::select(!dplyr::last_col()) |>
       `colnames<-` (c("day", "hour", "precipitation", "atm_pressure", "atm_pressure_max", "atm_pressure_min", "radiation", "temperature_air", "temperature_dew", "temperature_max", "temperature_min", "temperature_dew_max", "temperature_dew_min", "humidity_max", "humidity_min", "humidity", "wind_direction", "wind_burst_max", "wind_burst")
-      ) %>%
-      tibble::as_tibble() %>%
-      { if (!is.null(vars)) select(., all_of(c("day", "hour", vars))) else . } %>%
+      ) |>
+      tibble::as_tibble() |>
+      {\(.) if (!is.null(vars)) dplyr::select(., all_of(c("day", "hour", vars))) else . }() |>
       dplyr::mutate(
         station = station,
-        time = paste(day, hour) %>%
-          substr(1, 16) %>%
-          lubridate::ymd_hm() %>%
+        time = paste(day, hour) |>
+          substr(1, 16)         |>
+          lubridate::ymd_hm()   |>
           format("%Y/%m/%d %H")
-      ) %>%
-      dplyr::select(!c(day, hour)) %>%
+      ) |>
+      dplyr::select(!c(day, hour)) |>
       dplyr::mutate(
-        dplyr::across(!c(station, time), \(x) stringr::str_replace(x, ",", ".")),
-        dplyr::across(!c(station, time), \(x) as.numeric(x))
-      ) %>%
-      dplyr::relocate(c(station, time))
+        dplyr::across(!all_of(c("station", "time")), \(x) stringr::str_replace(x, ",", ".")),
+        dplyr::across(!all_of(c("station", "time")), \(x) as.numeric(x))
+      ) |>
+      dplyr::relocate(all_of(c("station", "time")))
 
     full_data = rbind(full_data, data)
 
@@ -145,8 +145,8 @@ set_data_locally = function(years = 2000:2024) {
 
   cat("======== DOWNLOADING DATA ========\n")
   for (year in years) {
-  info_repo = meteobr::info_repo %>%
-    dplyr::filter(type == "Rdata", year == !!year) %>%
+  info_repo = meteobr::info_repo |>
+    {\(.) dplyr::filter(., .$type == "Rdata", .$year == !!year)}() |>
     as.data.frame()
 
   local_path = file.path(local_data(), paste0(year, ".Rdata"))
@@ -206,21 +206,24 @@ get_data = function(first.day, last.day, vars = NULL, stations = NULL) {
   for (year in as.integer(names(years))) {
     set_data_locally(year)
 
-    int = years[[as.character(year)]] %>%
-      {validate_dates(year, .$first.day, .$last.day)} %>%
-      {lubridate::interval(lubridate::ymd(.[[1]]), lubridate::ymd(.[[2]]))}
+    int = years[[as.character(year)]] |>
+      {\(.) validate_dates(year, .$first.day, .$last.day)}() |>
+      {\(.) lubridate::interval(lubridate::ymd(.[[1]]), lubridate::ymd(.[[2]]))}()
 
-    data = paste0(local_data(), "/", year, ".Rdata") %>%
-      import_rdata()
-      { if (lubridate::int_length(int) / 86400 < 364)
+    data = paste0(local_data(), "/", year, ".Rdata") |>
+      import_rdata() |>
+      {\(.)
+        if (lubridate::int_length(int) / 86400 < 364)
         dplyr::filter(., lubridate::ymd_h(.data$time) %within% int)
-        else . } %>%
-      { if (!is.null(stations))
-        dplyr::filter(., .data$station %in% stations)
-        else . } %>%
-      { if (!is.null(vars))
+        else . }() |>
+      {\(.)
+        if (!is.null(stations))
+        dplyr::filter(., .$station %in% stations)
+        else . }() |>
+      {\(.)
+        if (!is.null(vars))
         dplyr::select(., all_of(c("time", vars)))
-        else . }
+        else . }()
 
     full_data = rbind(full_data, data)
   }

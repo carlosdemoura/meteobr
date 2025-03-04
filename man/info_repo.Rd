@@ -14,7 +14,6 @@ A data frame with 75 rows and 5 columns:
 \item{file}{full file name}
 \item{size}{size in Mb}
 \item{hash}{md5 hash}
-...
 }
 }
 }

@@ -8,10 +8,23 @@
 #'   \item{file}{full file name}
 #'   \item{size}{size in Mb}
 #'   \item{hash}{md5 hash}
-#'   ...
 #' }
 "info_repo"
 
 
-
-
+#' Additional information about INMET's automatic stations
+#'
+#' @format ## `stations`
+#' A data frame with 624 rows and 9 columns:
+#' \describe{
+#'   \item{station.id}{INMET's id of the station}
+#'   \item{station.name}{original name of the station on INMET's website}
+#'   \item{town.id}{IBGE code for station's town}
+#'   \item{town.name}{name of the town in which station is located, standardized}
+#'   \item{state}{state in which the station is located (abbreviation)}
+#'   \item{region}{national region in which the station is located}
+#'   \item{lat}{latitude of the station (meters)}
+#'   \item{lon}{longitude of the station (meters)}
+#'   \item{alt}{altitude of the station (meters)}
+#' }
+"stations"
