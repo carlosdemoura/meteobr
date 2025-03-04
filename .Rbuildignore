@@ -7,3 +7,6 @@
 ^data/repo$
 ^data-raw$
 ^logo_meteobr$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

@@ -6,3 +6,4 @@
 .quarto
 data/repo/*.fst
 data/repo/*.zip
+docs
