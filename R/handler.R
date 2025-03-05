@@ -3,16 +3,15 @@
 #' `get_inmet_data_by_year()` downloads data of a specific year from the
 #' official INMET website and prepreprocess it.
 #'
-#' @param year                Integer number between 2000 and 2024.
-#' @param first.day,last.day  String in the format "mm-dd". If NA (default), the
+#' @param year numeric; integer number between 2000 and 2024.
+#' @param first.day,last.day  character in the format "mm-dd". If NA (default), the
 #'   first/last day of the year is considered.
-#' @param vars                Variables to be collected. If NULL (default), all
-#'   variables are collected.
-#' @param stations            Stations to be collected. If NULL (default), all
-#'   stations are collected.
+#' @param vars character vector; variables to be collected. If NULL (default),
+#' all variables are collected.
+#' @param stations character vector; stations to be collected. If NULL (default),
+#' all stations are collected.
 #'
-#' @return A `tibble()` containing data from all selected `stations` and `vars`
-#'   in that `year` (or the part of it specified by `first.day` & `last.day`).
+#' @return A `tibble::tibble()` containing the required data.
 #'   Errors may arise if:
 #' * `year` is not specified.
 #' * You're trying to collect data before 2000-May-07.
@@ -120,10 +119,6 @@ get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NU
 #' @param years Vector of integers between 2000 and 2024; if no value is passed,
 #'   the DEFAULT is to download all data.
 #'
-#' @return Logical.
-#' * `TRUE`  if the required .Rdata is available in `local_data()`.
-#' * `FALSE` if not.
-#'
 #' @examples
 #' \dontrun{
 #' # Should download all data available on
@@ -178,12 +173,11 @@ set_data_locally = function(years = 2000:2024) {
 #' `get_data()` does this. Beware that this function, check `local_data()` to
 #' see more.
 #'
-#' @param first.day  String like "mm-dd".
-#' @param last.day   String like "mm-dd".
-#' @param vars       (optional) Variables to be collected.
-#' @param stations   (optional) Stations to be collected.
+#' @param first.day,last.day String like "yyyy-mm-dd".
+#' @param vars character vector; variables to be collected; if NULL (DEAFULT) all variables are collected.
+#' @param stations character vector; stations to be collected; if NULL (DEAFULT) data from all stations is collected.
 #'
-#' @return A `tibble()`.
+#' @return A `tibble::tibble()` containing the required data.
 #'
 #' @examples
 #' \dontrun{
