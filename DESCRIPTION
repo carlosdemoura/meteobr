@@ -22,7 +22,7 @@ Imports:
     stringr,
     lubridate
 Config/testthat/edition: 3
-URL: https://github.com/carlosdemoura/meteobr
+URL: https://github.com/carlosdemoura/meteobr, https://carlosdemoura.github.io/meteobr/
 BugReports: https://github.com/carlosdemoura/meteobr/issues
 Depends: 
     R (>= 2.10)

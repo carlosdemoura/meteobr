@@ -1,4 +1,4 @@
-#' Get data from INMET website by year
+#' Get data from INMET website
 #'
 #' `get_inmet_data_by_year()` downloads data of a specific year from the
 #' official INMET website and prepreprocess it.
@@ -145,14 +145,14 @@ set_data_locally = function(years = 2000:2024) {
 
   cat("======== DOWNLOADING DATA ========\n")
   for (year in years) {
-  info_repo = meteobr::info_repo |>
+  file_info = info_repo |>
     {\(.) dplyr::filter(., .$type == "Rdata", .$year == !!year)}() |>
     as.data.frame()
 
   local_path = file.path(local_data(), paste0(year, ".Rdata"))
 
     if (all(file.exists(local_path),
-            tools::md5sum(local_path) == info_repo[,"hash"] )) {
+            tools::md5sum(local_path) == file_info[,"hash"] )) {
       cat(year, "\t", "Already available\t", "OK\n")
       next
     }
@@ -173,7 +173,7 @@ set_data_locally = function(years = 2000:2024) {
 }
 
 
-#' Get data between dates
+#' Get meteorological data within interval
 #'
 #' `get_data()` does this. Beware that this function, check `local_data()` to
 #' see more.

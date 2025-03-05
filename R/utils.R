@@ -78,11 +78,9 @@ fiat_years = function(first.day, last.day) {
 }
 
 
-#' Put .Rdata or .rda data in variable
+#' Assign R data to a variable
 #'
-#' @param file file path
-#'
-#' @export
+#' @param file string; file path.
 import_rdata = function(file) {
   env = new.env()
   load(file, envir = env)

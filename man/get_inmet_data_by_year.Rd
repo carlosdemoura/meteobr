@@ -2,7 +2,7 @@
 % Please edit documentation in R/handler.R
 \name{get_inmet_data_by_year}
 \alias{get_inmet_data_by_year}
-\title{Get data from INMET website by year}
+\title{Get data from INMET website}
 \usage{
 get_inmet_data_by_year(
   year,
