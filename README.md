@@ -4,7 +4,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `meteobr` is to provide an easy way to get data from the automated meteorological stations of Brazil's [National Institute of Meteorology](https://portal.inmet.gov.br/). These stations provide, at each hour of every day between 2000-2024, a plethora of useful data (see the vignette (data trivia)[https://carlosdemoura.github.io/meteobr/articles/data_trivia.html]).
+The goal of `meteobr` is to provide an easy way to get data from the automated meteorological stations of Brazil's [National Institute of Meteorology](https://portal.inmet.gov.br/). These stations provide, at each hour of every day between 2000-2024, a plethora of useful data (see the vignette [data trivia](https://carlosdemoura.github.io/meteobr/articles/data_trivia.html)).
 
 ## Installation
 
