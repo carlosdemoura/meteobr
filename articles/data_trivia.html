@@ -80,13 +80,28 @@
 <h3 id="meteorological-data">Meteorological data<a class="anchor" aria-label="anchor" href="#meteorological-data"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_data.html">get_data</a></span><span class="op">(</span>first.day <span class="op">=</span> <span class="st">"2001-01-01"</span>, last.day <span class="op">=</span> <span class="st">"2001-01-02"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_data.html">get_data</a></span><span class="op">(</span>first.day <span class="op">=</span> <span class="st">"2001-01-01"</span>, last.day <span class="op">=</span> <span class="st">"2001-01-02"</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wind_burst"</span>, <span class="st">"temperature_air"</span>, <span class="st">"humidity"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div>
+<p>Bellow is the description of the variables you can access through
+<code><a href="../reference/get_data.html">get_data()</a></code> and <code><a href="../reference/get_inmet_data_by_year.html">get_inmet_data_by_year()</a></code>. The
+time variable refers to the hour marked +1 hr. So, if its written
+that</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>time            station   temperature_max   humidity</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>&lt;chr&gt;           &lt;chr&gt;               &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>2001/01/01 00   A001                 20.7         93</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>2001/01/01 01   A001                 20           95</span></code></pre></div>
+<p>it means that the maximum temperature at the station A001 on the day
+2001-jan-01 between 00:00 and 01:00 UTC was 20.7 degrees Celsius. It’s
+also true that - on the same day and at the same station - 20 °C was the
+maximum temperature between 01:00 and 02:00 UTC. In a nutshell: if you
+want to check data that refers to some day in hours between 11:00 and
+13:59 UTC, you’ll need to filter the hours 11, 12 and 13. See variables
+descriptions bellow:</p>
 <table class="table">
 <colgroup>
 <col width="26%">
-<col width="62%">
-<col width="10%">
+<col width="60%">
+<col width="13%">
 </colgroup>
 <thead><tr class="header">
 <th>Column name</th>
@@ -94,6 +109,16 @@
 <th>Unity</th>
 </tr></thead>
 <tbody>
+<tr class="odd">
+<td><code>time</code></td>
+<td>****</td>
+<td>UTC hour</td>
+</tr>
+<tr class="even">
+<td><code>station</code></td>
+<td>****</td>
+<td>station.id</td>
+</tr>
 <tr class="odd">
 <td><code>precipitation</code></td>
 <td>PRECIPITAÇÃO TOTAL, HORÁRIO (mm)</td>
@@ -185,8 +210,10 @@
 <div class="section level3">
 <h3 id="stations-data">Stations data<a class="anchor" aria-label="anchor" href="#stations-data"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">stations</span><span class="op">)</span></span></code></pre></div>
+<p>The data set <code>stations</code> contains data about INMET’s
+automatic stations. See variables descriptions bellow:</p>
 <table class="table">
 <colgroup>
 <col width="21%">

@@ -82,12 +82,12 @@
 </h3>
 <p>Suppose you’ve just installed <code>meteobr</code> and it’s your
 interest to deal with data about humidity and radiation between
-june-2003 &amp; august-2005. You already checked the article check the
-article ‘data trivia’ and knows the columns you’re interested in are
-<code>humidity</code> and <code>radiation</code>.</p>
+june-2003 &amp; august-2005. You already checked the <a href="data-trivia.html">vignette data trivia</a> and you know that the
+columns you’re interested in are <code>humidity</code> and
+<code>radiation</code>.</p>
 <p>The first step is to download the treated data. Unfortunately you
 can’t have very large data sets easily available (through the <a href="https://r-pkgs.org/data.html" class="external-link"><code>data/</code> folder</a>). Our
-solution to that was to let the user download the data ‘à la carte’, and
+solution to that was to let the user download the data ‘à la carte’;
 this is done with the function <code><a href="../reference/set_data_locally.html">set_data_locally()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># The code bellow downloads only the data between 2003 &amp; 2005</span></span>
@@ -95,12 +95,13 @@ this is done with the function <code><a href="../reference/set_data_locally.html
 <span></span>
 <span><span class="co"># The code bellow downloads all data available</span></span>
 <span><span class="fu"><a href="../reference/set_data_locally.html">set_data_locally</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Even though you just want to analyse the year 2003-2005, we recommend
-you download all available data. That’s is better because makes it
-easier to run future analysis without having to wait your internet
-connection. Note that all data is just less than 900 Mb. Besides that,
-running the default <code><a href="../reference/set_data_locally.html">set_data_locally()</a></code> right away will let
-you know if there is any error in the data download/storage process.</p>
+<p>Even though you just want to analyse the years 2003-2005, we
+recommend that you download all available data. That’s better because it
+makes it easier to run future analysis without having to wait your
+internet connection. Note that all data is less than 900 Mb. Besides
+that, running the default <code><a href="../reference/set_data_locally.html">set_data_locally()</a></code> right away
+will let you know if there is any error in the data download/storage
+process.</p>
 <p>Talking about that, it’s worth mentioning the following:</p>
 <ul>
 <li>
@@ -121,30 +122,30 @@ you do so, it’s likely that the same data will be downloaded again, and
 the program will overwrite it.</p></li>
 <li>
 <p>If you’re having any problem with this process, you can verify if
-the data is going where it’s supposed to go - with the help with the
-function <code><a href="../reference/local_data.html">local_data()</a></code>. It should return the folder (in YOUR
-machine) in which we’re storing the data. You can ‘set the data locally’
-yourself by downloading everything that is in our <a href="https://github.com/carlosdemoura/meteobr/tree/master/data/repo" class="external-link">GitHub
+the data is stored where it’s supposed to be - with the function
+<code><a href="../reference/local_data.html">local_data()</a></code>. It returns the folder (in your machine) where
+the data is stored. You can ‘set the data locally’ yourself by
+downloading everything that is in our <a href="https://github.com/carlosdemoura/meteobr/tree/master/data/repo" class="external-link">GitHub
 data repo</a> and copying it to the <code><a href="../reference/local_data.html">local_data()</a></code>
 folder.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/local_data.html">local_data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li><p>The function <code><a href="../reference/set_data_locally.html">set_data_locally()</a></code> in called by the
-function <code><a href="../reference/get_data.html">get_data()</a></code> (which we will talk next), so it’s
-perfectly possible to use our package without having to ever
-<code><a href="../reference/set_data_locally.html">set_data_locally()</a></code> yourself.</p></li>
+function <code><a href="../reference/get_data.html">get_data()</a></code> (which we’ll talk next), so it’s
+perfectly possible to use our package without having to call
+<code><a href="../reference/set_data_locally.html">set_data_locally()</a></code>.</p></li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="geting-the-data">Geting the data<a class="anchor" aria-label="anchor" href="#geting-the-data"></a>
 </h3>
-<p>Now that we have our data is readily available, let’s get it! Well,
-not us, the function <code><a href="../reference/get_data.html">get_data()</a></code>. <code>first.day</code>
-&amp; <code>last.day</code> must be in the format yyyy-mm-dd, the
-columns we want are in <code>vars</code> and, as we want data across all
-stations, <code>stations</code> is set to NULL (in this case, there was
-no need to even pass this argument).</p>
+<p>Now that the data is readily available, let’s get it! Well, not us,
+the function <code><a href="../reference/get_data.html">get_data()</a></code>. <code>first.day</code> &amp;
+<code>last.day</code> must be in the format yyyy-mm-dd, the columns we
+want are in <code>vars</code> and, as we want data across all stations,
+<code>stations</code> is set to NULL (in this case, there was no need to
+even pass this argument).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_data.html">get_data</a></span><span class="op">(</span>first.day <span class="op">=</span> <span class="st">"2003-06-01"</span>,</span>
 <span>              last.day  <span class="op">=</span> <span class="st">"2005-08-31"</span>,</span>
@@ -169,9 +170,9 @@ The code below filters and turn the data into the wider format.</p>
 <span><span class="va">df_long</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_data.html">get_data</a></span><span class="op">(</span>first.day <span class="op">=</span> <span class="st">"2003-01-01"</span>,</span>
 <span>                   last.day  <span class="op">=</span> <span class="st">"2003-01-31"</span>,</span>
 <span>                   vars <span class="op">=</span> <span class="st">"temperature_max"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>hour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">time</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="va">x</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="st">" "</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">}</span> <span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">hour</span> <span class="op">==</span> <span class="fl">11</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="op">!</span><span class="va">hour</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>hour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">time</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="va">x</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="st">" "</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span><span class="op">}</span> <span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">hour</span> <span class="op">==</span> <span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="op">!</span><span class="va">hour</span><span class="op">)</span></span>
 <span>  </span>
 <span><span class="fu">glimpse</span><span class="op">(</span><span class="va">df_long</span><span class="op">)</span></span>
 <span></span>
@@ -190,7 +191,7 @@ still use <code><a href="../reference/get_inmet_data_by_year.html">get_inmet_dat
 <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> the data sets. The downside of this approach is
 that this function downloads and processes the original raw data every
 time it’s called, which is time consuming.</p>
-<p>Bellow we have a way to get the same data as before under this new
+<p>Bellow we have a way to get the same data as before, under this new
 approach.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"humidity"</span>, <span class="st">"radiation"</span><span class="op">)</span></span>
