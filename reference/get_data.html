@@ -52,25 +52,21 @@ see more.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-first-day">first.day<a class="anchor" aria-label="anchor" href="#arg-first-day"></a></dt>
-<dd><p>String like "mm-dd".</p></dd>
-
-
-<dt id="arg-last-day">last.day<a class="anchor" aria-label="anchor" href="#arg-last-day"></a></dt>
-<dd><p>String like "mm-dd".</p></dd>
+<dl><dt id="arg-first-day-last-day">first.day, last.day<a class="anchor" aria-label="anchor" href="#arg-first-day-last-day"></a></dt>
+<dd><p>String like "yyyy-mm-dd".</p></dd>
 
 
 <dt id="arg-vars">vars<a class="anchor" aria-label="anchor" href="#arg-vars"></a></dt>
-<dd><p>(optional) Variables to be collected.</p></dd>
+<dd><p>character vector; variables to be collected; if NULL (DEAFULT) all variables are collected.</p></dd>
 
 
 <dt id="arg-stations">stations<a class="anchor" aria-label="anchor" href="#arg-stations"></a></dt>
-<dd><p>(optional) Stations to be collected.</p></dd>
+<dd><p>character vector; stations to be collected; if NULL (DEAFULT) data from all stations is collected.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>tibble()</code>.</p>
+    <p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> containing the required data.</p>
     </div>
 
     <div class="section level2">

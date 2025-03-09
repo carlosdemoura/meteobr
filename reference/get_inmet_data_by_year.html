@@ -59,28 +59,27 @@ official INMET website and prepreprocess it.</p>
 
 
 <dl><dt id="arg-year">year<a class="anchor" aria-label="anchor" href="#arg-year"></a></dt>
-<dd><p>Integer number between 2000 and 2024.</p></dd>
+<dd><p>numeric; integer number between 2000 and 2024.</p></dd>
 
 
 <dt id="arg-first-day-last-day">first.day, last.day<a class="anchor" aria-label="anchor" href="#arg-first-day-last-day"></a></dt>
-<dd><p>String in the format "mm-dd". If NA (default), the
+<dd><p>character in the format "mm-dd". If NA (default), the
 first/last day of the year is considered.</p></dd>
 
 
 <dt id="arg-vars">vars<a class="anchor" aria-label="anchor" href="#arg-vars"></a></dt>
-<dd><p>Variables to be collected. If NULL (default), all
-variables are collected.</p></dd>
+<dd><p>character vector; variables to be collected. If NULL (default),
+all variables are collected.</p></dd>
 
 
 <dt id="arg-stations">stations<a class="anchor" aria-label="anchor" href="#arg-stations"></a></dt>
-<dd><p>Stations to be collected. If NULL (default), all
-stations are collected.</p></dd>
+<dd><p>character vector; stations to be collected. If NULL (default),
+all stations are collected.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>tibble()</code> containing data from all selected <code>stations</code> and <code>vars</code>
-in that <code>year</code> (or the part of it specified by <code>first.day</code> &amp; <code>last.day</code>).
+    <p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> containing the required data.
 Errors may arise if:</p><ul><li><p><code>year</code> is not specified.</p></li>
 <li><p>You're trying to collect data before 2000-May-07.</p></li>
 <li><p><code>fist.day</code> doesn't comes before <code>last.day</code>.</p></li>
@@ -104,10 +103,29 @@ data some days after 2000-May-07.</p>
 <span class="r-in"><span><span class="co"># `first.day` &amp; `last.day` must be in format mm-dd, here the code wouldn't run</span></span></span>
 <span class="r-in"><span><span class="co"># because it is in the format yyyy-mm-dd.</span></span></span>
 <span class="r-in"><span><span class="fu">get_inmet_data_by_year</span><span class="op">(</span><span class="fl">2000</span>, first.day <span class="op">=</span> <span class="st">"2000-01-01"</span>, last.day <span class="op">=</span> <span class="st">"2000-12-31"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># This Should get all 2000 data.</span></span></span>
 <span class="r-in"><span><span class="fu">get_inmet_data_by_year</span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 25,176 × 19</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    station time     precipitation atm_pressure atm_pressure_max atm_pressure_min</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> A001    2000/05…         -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>        -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> A001    2000/05…         -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>        -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> A001    2000/05…         -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>        -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> A001    2000/05…         -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>        -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> A001    2000/05…         -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>        -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> A001    2000/05…         -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>        -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> A001    2000/05…         -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>        -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> A001    2000/05…         -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>        -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> A001    2000/05…         -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>        -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> A001    2000/05…         -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>        -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span>            -<span style="color: #BB0000; text-decoration: underline;">9</span><span style="color: #BB0000;">999</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 25,166 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 13 more variables: radiation &lt;dbl&gt;, temperature_air &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   temperature_dew &lt;dbl&gt;, temperature_max &lt;dbl&gt;, temperature_min &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   temperature_dew_max &lt;dbl&gt;, temperature_dew_min &lt;dbl&gt;, humidity_max &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   humidity_min &lt;dbl&gt;, humidity &lt;dbl&gt;, wind_direction &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   wind_burst_max &lt;dbl&gt;, wind_burst &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
