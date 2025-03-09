@@ -34,7 +34,7 @@ get_csv_lines = function(year, first.day, last.day) {
 }
 
 
-validate_dates = function(year, first.day, last.day) {
+validate_dates = function(year, first.day = NA, last.day = NA) {
   stopifnot( "only data between 2000 & 2024 is available" = year %in% 2000:2024 )
 
   pattern_wo_year = "^\\d{2}[-/]\\d{2}$"
@@ -46,8 +46,8 @@ validate_dates = function(year, first.day, last.day) {
             ))
 
   if (grepl(pattern_wo_year, first.day)) {
-    first.day = paste0(year, "-", first.day)
-    last.day  = paste0(year, "-", last.day)
+    first.day = paste0( year, "-", first.day |> {\(.) gsub("/", "-", .)}() )
+    last.day  = paste0( year, "-", last.day  |> {\(.) gsub("/", "-", .)}() )
   } else {
     first.day = paste0(year, "-01-01")
     last.day  = paste0(year, "-12-31")

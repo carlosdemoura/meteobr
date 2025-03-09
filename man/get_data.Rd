@@ -7,16 +7,14 @@
 get_data(first.day, last.day, vars = NULL, stations = NULL)
 }
 \arguments{
-\item{first.day}{String like "mm-dd".}
+\item{first.day, last.day}{String like "yyyy-mm-dd".}
 
-\item{last.day}{String like "mm-dd".}
+\item{vars}{character vector; variables to be collected; if NULL (DEAFULT) all variables are collected.}
 
-\item{vars}{(optional) Variables to be collected.}
-
-\item{stations}{(optional) Stations to be collected.}
+\item{stations}{character vector; stations to be collected; if NULL (DEAFULT) data from all stations is collected.}
 }
 \value{
-A \code{tibble()}.
+A \code{tibble::tibble()} containing the required data.
 }
 \description{
 \code{get_data()} does this. Beware that this function, check \code{local_data()} to

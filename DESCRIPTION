@@ -2,13 +2,14 @@ Package: meteobr
 Title: Meteorological Data From Brazil
 Version: 0.0.0.9000
 Authors@R: 
-    person("Carlos", "de Moura", , "lcbarrosdemoura@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Carlos", "de Moura", , "lcbarrosdemoura@gmail.com", role = c("aut", "cre"))
 Description: An easy way to get meteorological data from Brazil.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Depends:
+    R (>= 4.1.0)
 Suggests: 
     knitr,
     rmarkdown,
@@ -24,8 +25,6 @@ Imports:
 Config/testthat/edition: 3
 URL: https://github.com/carlosdemoura/meteobr, https://carlosdemoura.github.io/meteobr/
 BugReports: https://github.com/carlosdemoura/meteobr/issues
-Depends: 
-    R (>= 2.10)
 LazyData: true
 Config/Needs/website: rmarkdown
 VignetteBuilder: knitr

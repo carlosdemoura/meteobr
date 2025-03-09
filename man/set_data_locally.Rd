@@ -10,13 +10,6 @@ set_data_locally(years = 2000:2024)
 \item{years}{Vector of integers between 2000 and 2024; if no value is passed,
 the DEFAULT is to download all data.}
 }
-\value{
-Logical.
-\itemize{
-\item \code{TRUE}  if the required .Rdata is available in \code{local_data()}.
-\item \code{FALSE} if not.
-}
-}
 \description{
 \code{set_data_locally()} downloads .Rdata files and stores it locally without the
 hassle of unzipping and processing them.
