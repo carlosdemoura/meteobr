@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   data_trivia: data_trivia.html
   articles/example: example.html
-last_built: 2025-03-09T13:41Z
+last_built: 2025-03-09T18:28Z
 urls:
   reference: https://carlosdemoura.github.io/meteobr/reference
   article: https://carlosdemoura.github.io/meteobr/articles
