@@ -135,10 +135,8 @@ set_data_locally = function(years = 2000:2024) {
   stopifnot("year(s) must be between 2000 & 2004" =
               all(years %in% 2000:2024))
 
-
   if (!dir.exists(local_data())) dir.create(local_data(), recursive = T)
 
-  cat("======== DOWNLOADING DATA ========\n")
   for (year in years) {
   file_info = info_repo |>
     {\(.) dplyr::filter(., .$type == "Rdata", .$year == !!year)}() |>
@@ -148,20 +146,15 @@ set_data_locally = function(years = 2000:2024) {
 
     if (all(file.exists(local_path),
             tools::md5sum(local_path) == file_info[,"hash"] )) {
-      cat(year, "\t", "Already available\t", "OK\n")
+      cat("\n", year, "\tAlready available")
       next
     }
 
     url = paste0("https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/repo/", year, ".Rdata")
-    answer = try(utils::download.file(url, local_path, quiet = T, mode = "wb"))
+    answer = try(utils::download.file(url, local_path, mode = "wb"))
 
-    cat(year, "\t", round(info_repo[,"size"], 2), "Mb\t\t")
     if ( inherits(answer, "try-error") ) {
-      #cat(year, "\t", info_repo[,"size"], "Mb\t\t\t", "ERROR\n")
-      cat("ERROR\n")
-    } else {
-      #cat(year, "\t", info_repo[,"size"], "Mb\t\t\t", "OK\n")
-      cat("OK\n")
+      cat("\n", year, "\tERROR")
     }
 
   }
