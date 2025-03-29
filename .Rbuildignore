@@ -10,5 +10,6 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^_stations_info_handler$
 ^vignettes/articles$
 ^\.github$

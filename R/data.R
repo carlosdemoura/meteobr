@@ -5,12 +5,13 @@
 #' \describe{
 #'   \item{station.id}{INMET's id of the station}
 #'   \item{station.name}{original name of the station on INMET's website}
-#'   \item{town.id}{IBGE code for station's town}
-#'   \item{town.name}{name of the town in which station is located, standardized}
-#'   \item{state}{state in which the station is located (abbreviation)}
-#'   \item{region}{national region in which the station is located}
 #'   \item{lat}{latitude of the station (meters)}
 #'   \item{lon}{longitude of the station (meters)}
 #'   \item{alt}{altitude of the station (meters)}
+#'   \item{foundation}{date station was founded}
+#'   \item{town.id}{IBGE code for station's town}
+#'   \item{town.name}{name of the town in which station is located, according to IBGE}
+#'   \item{state}{state in which the station is located}
+#'   \item{region}{national region in which the station is located}
 #' }
 "stations"
