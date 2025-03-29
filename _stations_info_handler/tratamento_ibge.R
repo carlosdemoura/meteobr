@@ -116,7 +116,6 @@ ibge_original =
 
 stations =
   inmet %>%
-  select(!town.id) %>%
   merge(zzz2[c("town.id", "station.id")], by = "station.id") %>%
   select(!c(state, town.name)) %>%
   merge(ibge_original, by = "town.id") %>%
@@ -125,7 +124,7 @@ stations =
   arrange(region, state, town.id)
 
 
-usethis::use_data(stations)
+usethis::use_data(stations, overwrite = TRUE)
 
 
 
@@ -135,7 +134,7 @@ saveRDS(stations, "stations_final.rds")
 
 
 
-filter(ibge, town.name == toupper("torres"))
+filter(ibge, town.name == toupper("BARREIRINHAS"))
 
 
 View(zzz)
