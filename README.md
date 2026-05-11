@@ -1,5 +1,5 @@
 
-# meteobr <a href="https://github.com/carlosdemoura/meteobr"><img src="logo_meteobr/meteobr.png" align="right" height="138" /></a>
+# meteobr <a href="https://github.com/carlosdemoura/meteobr"><img src="stuff/logo_meteobr/meteobr.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/carlosdemoura/meteobr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/carlosdemoura/meteobr/actions/workflows/R-CMD-check.yaml)

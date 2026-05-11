@@ -8,3 +8,4 @@ data/repo/*.fst
 data/repo/*.zip
 docs
 inst/doc
+.positai

@@ -35,7 +35,7 @@ get_csv_lines = function(year, first.day, last.day) {
 
 
 validate_dates = function(year, first.day = NA, last.day = NA) {
-  stopifnot( "only data between 2000 & 2024 is available" = year %in% 2000:2024 )
+  stopifnot( "only data between 2000 & meteobr.max.year is available" = year %in% 2000:meteobr.max.year )
 
   pattern_wo_year = "^\\d{2}[-/]\\d{2}$"
 
@@ -75,30 +75,4 @@ fiat_years = function(first.day, last.day) {
   }
 
   x
-}
-
-
-#Assign R data to a variable
-import_rdata = function(file) {
-  env = new.env()
-  load(file, envir = env)
-  x = ls(env)
-  get(x, envir = env)
-}
-
-
-#' Get where data is stored
-#'
-#' Get where on your PC the package data is being stored.
-#'
-#' @return A string, folder path.
-#'
-#' @export
-#'
-#' @import tools
-#' @import purrr
-local_data = function() {
-  tools::R_user_dir("meteobr", which = "data") |>
-    {\(.) gsub("\\\\", "/", .)}() |>
-    purrr::pluck(1)
 }

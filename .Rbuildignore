@@ -13,3 +13,6 @@
 ^_stations_info_handler$
 ^vignettes/articles$
 ^\.github$
+^\.positai$
+^\.claude$
+^stuff$

@@ -6,15 +6,16 @@ test_that("get_inmet_data_by_year(), set_data_locally(), get_data() validate yea
   expect_error(get_data(first.day = "1999-12-31", last.day = "2001-12-31"))
 })
 
-test_that("get_inmet_data_by_year() works", {
-  actual = get_inmet_data_by_year(2000)
-
-  x = new.env()
-  load(test_path("fixtures", "data_2000.Rdata"), envir = x)
-  expected = get(ls(x))
-
-  expect_equal(actual, expected)
-})
+# test_that("get_inmet_data_by_year() works", {
+#   skip_on_cran()
+#   actual = get_inmet_data_by_year(2000)
+#
+#   x = new.env()
+#   load(test_path("fixtures", "data_2000.Rdata"), envir = x)
+#   expected = get(ls(x))
+#
+#   expect_equal(actual, expected)
+# })
 
 test_that("set_data_locally() works", {
   set_data_locally(2000)

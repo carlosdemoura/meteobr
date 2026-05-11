@@ -15,3 +15,12 @@
 #'   \item{region}{national region in which the station is located}
 #' }
 "stations"
+
+
+#' Informations about data file
+#'
+#' Formats, HASHs, sizes
+"info_repo"
+
+#' Package maximum yaer available
+"meteobr.max.year"

@@ -14,40 +14,41 @@
 #   print(year)
 # }
 
-
-info_raw_data = data.frame(path = list.files(local_data(), full.names = TRUE)) |>
-  dplyr::mutate(
-    size = file.info(path)$size,
-    hash = sapply(path,
-                  function(x) {
-                    tools::md5sum(x) |> unname()
-                  }),
-    file = sapply(path,
-                  function(x) {
-                    strsplit(x, "/") |>
-                      purrr::pluck(1) |>
-                      rev() |>
-                      purrr::pluck(1)
-                  }),
-    year = sapply(file,
-                  function(x) {
-                    strsplit(x, "[.]") |>
-                      purrr::pluck(1) |>
-                      list()
-                  }),
-    type = sapply(year,
-                  function(x) {
-                    x |> purrr::pluck(2)
-                  }),
-    year = sapply(year,
-                  function(x) {
-                    x |> purrr::pluck(1) |> as.numeric()
-                  })
-  ) |>
-  dplyr::select(!path) |>
-  dplyr::relocate(c(year, type, file)) |>
-  tibble::as_tibble()
-
-save(info_raw_data, file = "R/info_raw_data.Rdata")
+#
+# info_raw_data =
+#   data.frame(path = list.files(local_data(), full.names = TRUE)) |>
+#   dplyr::mutate(
+#     size = file.info(path)$size,
+#     hash = sapply(path,
+#                   function(x) {
+#                     tools::md5sum(x) |> unname()
+#                   }),
+#     file = sapply(path,
+#                   function(x) {
+#                     strsplit(x, "/") |>
+#                       purrr::pluck(1) |>
+#                       rev() |>
+#                       purrr::pluck(1)
+#                   }),
+#     year = sapply(file,
+#                   function(x) {
+#                     strsplit(x, "[.]") |>
+#                       purrr::pluck(1) |>
+#                       list()
+#                   }),
+#     type = sapply(year,
+#                   function(x) {
+#                     x |> purrr::pluck(2)
+#                   }),
+#     year = sapply(year,
+#                   function(x) {
+#                     x |> purrr::pluck(1) |> as.numeric()
+#                   })
+#   ) |>
+#   dplyr::select(!path) |>
+#   dplyr::relocate(c(year, type, file)) |>
+#   tibble::as_tibble()
+#
+# save(info_raw_data, file = "R/info_raw_data.Rdata")
 
 #usethis::use_data(DATASET, overwrite = TRUE)

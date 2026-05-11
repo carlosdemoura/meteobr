@@ -31,10 +31,10 @@
 #' # `first.day` & `last.day` must be in format mm-dd, here the code wouldn't run
 #' # because it is in the format yyyy-mm-dd.
 #' get_inmet_data_by_year(2000, first.day = "2000-01-01", last.day = "2000-12-31")
-#' }
 #'
 #' # This Should get all 2000 data.
 #' get_inmet_data_by_year(2000)
+#' }
 #'
 #' @export
 #'
@@ -45,8 +45,8 @@
 #' @import stringr
 #' @import lubridate
 get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NULL, stations = NULL) {
-
-  csv.lines = validate_dates(year, first.day, last.day) |>
+  csv.lines =
+    validate_dates(year, first.day, last.day) |>
     {\(.) get_csv_lines(year, .[[1]], .[[2]])}()
 
   main_dir = file.path(tempdir(), paste0("meteobr_", year))
@@ -61,7 +61,7 @@ get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NU
   utils::unzip(main_dir, exdir = extract_dir)
   unlink(main_dir, recursive = T)
 
-  if (year < 2020) {
+  if ((year < 2020) | (year == 2025)) {
     files = list.files(file.path(extract_dir, year), full.names = TRUE)
   } else {
     files = list.files(extract_dir, full.names = TRUE)
@@ -69,22 +69,19 @@ get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NU
 
   full_data = data.frame()
 
-  for ( file in files ) {
-    station = file    |>
-      strsplit("_")   |>
+  for (file in files) {
+    station =
+      file |>
+      basename() |>
+      strsplit("_") |>
       purrr::pluck(1) |>
-      rev()           |>
-      purrr::pluck(5)
+      purrr::pluck(4)
 
-    if (!(station %in% stations) & !is.null(stations)) {
-      next
-    }
-
-    data = file |>
+    data =
+      file |>
       utils::read.csv(skip = csv.lines[1], nrows = diff(csv.lines), sep = ";", header = F) |>
       dplyr::select(!dplyr::last_col()) |>
-      `colnames<-` (c("day", "hour", "precipitation", "atm_pressure", "atm_pressure_max", "atm_pressure_min", "radiation", "temperature_air", "temperature_dew", "temperature_max", "temperature_min", "temperature_dew_max", "temperature_dew_min", "humidity_max", "humidity_min", "humidity", "wind_direction", "wind_burst_max", "wind_burst")
-      ) |>
+      `colnames<-`( c("day", "hour", "precipitation", "atm_pressure", "atm_pressure_max", "atm_pressure_min", "radiation", "temperature_air", "temperature_dew", "temperature_max", "temperature_min", "temperature_dew_max", "temperature_dew_min", "humidity_max", "humidity_min", "humidity", "wind_direction", "wind_burst_max", "wind_burst") ) |>
       tibble::as_tibble() |>
       {\(.) if (!is.null(vars)) dplyr::select(., all_of(c("day", "hour", vars))) else . }() |>
       dplyr::mutate(
@@ -94,7 +91,7 @@ get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NU
           lubridate::ymd_hm()   |>
           format("%Y/%m/%d %H")
       ) |>
-      dplyr::select(!c(day, hour)) |>
+      dplyr::select(-c(day, hour)) |>
       dplyr::mutate(
         dplyr::across(!all_of(c("station", "time")), \(x) stringr::str_replace(x, ",", ".")),
         dplyr::across(!all_of(c("station", "time")), \(x) as.numeric(x))
@@ -102,7 +99,6 @@ get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NU
       dplyr::relocate(all_of(c("station", "time")))
 
     full_data = rbind(full_data, data)
-
   }
 
   unlink(extract_dir, recursive = T)
@@ -131,32 +127,35 @@ get_inmet_data_by_year = function(year, first.day = NA, last.day = NA, vars = NU
 #'
 #' @import dplyr
 #' @import utils
-set_data_locally = function(years = 2000:2024) {
-  stopifnot("year(s) must be between 2000 & 2004" =
-              all(years %in% 2000:2024))
+set_data_locally = function(years = 2000:meteobr.max.year) {
+  stopifnot("year(s) must be between 2000 & meteobr.max.year" = all(years %in% 2000:meteobr.max.year))
 
   if (!dir.exists(local_data())) dir.create(local_data(), recursive = T)
 
   for (year in years) {
-  file_info = info_repo |>
-    {\(.) dplyr::filter(., .$type == "Rdata", .$year == !!year)}() |>
-    as.data.frame()
+    file_info =
+      info_repo |>
+      {\(.) dplyr::filter(., .$type == "Rdata", .$year == !!year)}() |>
+      as.data.frame()
 
-  local_path = file.path(local_data(), paste0(year, ".Rdata"))
+    local_path = file.path(local_data(), paste0(year, ".Rdata"))
 
-    if (all(file.exists(local_path),
-            tools::md5sum(local_path) == file_info[,"hash"] )) {
-      cat("\n", year, "\tAlready available")
-      next
-    }
+      if (all(
+              file.exists(local_path),
+              tools::md5sum(local_path) == file_info[,"hash"]
+              )) {
+        cat("\n", year, "\tAlready available")
+        next
+      }
 
-    url = paste0("https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/repo/", year, ".Rdata")
-    answer = try(utils::download.file(url, local_path, mode = "wb"))
+      url = paste0("https://github.com/carlosdemoura/meteobr/raw/refs/heads/master/data/repo/", year, ".Rdata")
+      answer = try(utils::download.file(url, local_path, mode = "wb"))
 
-    if ( inherits(answer, "try-error") ) {
-      cat("\n", year, "\tERROR")
-    }
-
+      if ( inherits(answer, "try-error") ) {
+        cat("\n", year, "\tERROR")
+      } else {
+        cat("\n", year, "\tOK")
+      }
   }
 }
 
@@ -190,22 +189,22 @@ get_data = function(first.day, last.day, vars = NULL, stations = NULL) {
 
   full_data = data.frame()
 
+  env = new.env()
   for (year in as.integer(names(years))) {
     set_data_locally(year)
 
-    int = years[[as.character(year)]] |>
+    int =
+      years[[as.character(year)]] |>
       {\(.) validate_dates(year, .$first.day, .$last.day)}() |>
       {\(.) lubridate::interval(lubridate::ymd(.[[1]]), lubridate::ymd(.[[2]]))}()
 
-    data = paste0(local_data(), "/", year, ".Rdata") |>
-      import_rdata() |>
+    load(paste0(local_data(), "/", year, ".Rdata"), envir = env)
+
+    data =
+      get(paste0("br_", year), envir = env) |>
       {\(.)
         if (lubridate::int_length(int) / 86400 < 364)
         dplyr::filter(., lubridate::ymd_h(.data$time) %within% int)
-        else . }() |>
-      {\(.)
-        if (!is.null(stations))
-        dplyr::filter(., .$station %in% stations)
         else . }() |>
       {\(.)
         if (!is.null(vars))
@@ -215,5 +214,23 @@ get_data = function(first.day, last.day, vars = NULL, stations = NULL) {
     full_data = rbind(full_data, data)
   }
 
+  rm(env)
   full_data
+}
+
+
+#' Get where data is stored
+#'
+#' Get where on your PC the package data is being stored.
+#'
+#' @return A string, folder path.
+#'
+#' @export
+#'
+#' @import tools
+#' @import purrr
+local_data = function() {
+  tools::R_user_dir("meteobr", which = "data") |>
+    {\(.) gsub("\\\\", "/", .)}() |>
+    purrr::pluck(1)
 }

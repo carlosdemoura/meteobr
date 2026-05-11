@@ -4,7 +4,7 @@
 \alias{set_data_locally}
 \title{Download preprocessed data}
 \usage{
-set_data_locally(years = 2000:2024)
+set_data_locally(years = 2000:meteobr.max.year)
 }
 \arguments{
 \item{years}{Vector of integers between 2000 and 2024; if no value is passed,

@@ -53,9 +53,9 @@ data some days after 2000-May-07.
 # `first.day` & `last.day` must be in format mm-dd, here the code wouldn't run
 # because it is in the format yyyy-mm-dd.
 get_inmet_data_by_year(2000, first.day = "2000-01-01", last.day = "2000-12-31")
-}
 
 # This Should get all 2000 data.
 get_inmet_data_by_year(2000)
+}
 
 }
