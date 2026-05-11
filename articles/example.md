@@ -1,0 +1,167 @@
+# example
+
+## Example
+
+First, call the package.
+
+``` r
+
+library(meteobr)
+```
+
+Now, let’s talk business.
+
+### Downloading data
+
+Suppose you’ve just installed `meteobr` and it’s your interest to deal
+with data about humidity and radiation between june-2003 & august-2005.
+You already checked the [vignette data
+trivia](https://carlosdemoura.github.io/meteobr/articles/data-trivia.md)
+and you know that the columns you’re interested in are `humidity` and
+`radiation`.
+
+The first step is to download the treated data. Unfortunately you can’t
+have very large data sets easily available (through the [`data/`
+folder](https://r-pkgs.org/data.html)). Our solution to that was to let
+the user download the data ‘à la carte’; this is done with the function
+[`set_data_locally()`](https://carlosdemoura.github.io/meteobr/reference/set_data_locally.md).
+
+``` r
+
+# The code bellow downloads only the data between 2003 & 2005
+set_data_locally(2003:2005)
+
+# The code bellow downloads all data available
+set_data_locally()
+```
+
+Even though you just want to analyse the years 2003-2005, we recommend
+that you download all available data. That’s better because it makes it
+easier to run future analysis without having to wait your internet
+connection. Note that all data is less than 900 Mb. Besides that,
+running the default
+[`set_data_locally()`](https://carlosdemoura.github.io/meteobr/reference/set_data_locally.md)
+right away will let you know if there is any error in the data
+download/storage process.
+
+Talking about that, it’s worth mentioning the following:
+
+- You should only download data once. If you do
+
+  ``` r
+
+  year = 2010
+
+  # 1
+  set_data_locally(year)
+
+  # 2
+  set_data_locally(year)
+  ```
+
+  the first line will actually download the data, and the second line
+  will simply note that the data is already there.
+
+- You shouldn’t modify the `.Rdata` files by hand. If you do so, it’s
+  likely that the same data will be downloaded again, and the program
+  will overwrite it.
+
+- If you’re having any problem with this process, you can verify if the
+  data is stored where it’s supposed to be - with the function
+  [`local_data()`](https://carlosdemoura.github.io/meteobr/reference/local_data.md).
+  It returns the folder (in your machine) where the data is stored. You
+  can ‘set the data locally’ yourself by downloading everything that is
+  in our [GitHub data
+  repo](https://github.com/carlosdemoura/meteobr/tree/master/data/repo)
+  and copying it to the
+  [`local_data()`](https://carlosdemoura.github.io/meteobr/reference/local_data.md)
+  folder.
+
+  ``` r
+
+  local_data()
+  ```
+
+- The function
+  [`set_data_locally()`](https://carlosdemoura.github.io/meteobr/reference/set_data_locally.md)
+  in called by the function
+  [`get_data()`](https://carlosdemoura.github.io/meteobr/reference/get_data.md)
+  (which we’ll talk next), so it’s perfectly possible to use our package
+  without having to call
+  [`set_data_locally()`](https://carlosdemoura.github.io/meteobr/reference/set_data_locally.md).
+
+### Geting the data
+
+Now that the data is readily available, let’s get it! Well, not us, the
+function
+[`get_data()`](https://carlosdemoura.github.io/meteobr/reference/get_data.md).
+`first.day` & `last.day` must be in the format yyyy-mm-dd, the columns
+we want are in `vars` and, as we want data across all stations,
+`stations` is set to NULL (in this case, there was no need to even pass
+this argument).
+
+``` r
+
+df = get_data(first.day = "2003-06-01",
+              last.day  = "2005-08-31",
+              vars = c("humidity", "radiation"),
+              stations = NULL)
+
+dplyr::glimpse(df)
+```
+
+Ta-dah!
+
+### Wider data
+
+Let’s say we need our data to be in the wider format. Since this isn’t
+possible with two variables (?), lets get another data. Let’s say we’re
+interested in the maximum temperature between 10 and 11 hours UTC. The
+code below filters and turn the data into the wider format.
+
+``` r
+
+library(tidyverse)
+library(lubridate)
+library(purrr)
+
+df_long = get_data(first.day = "2003-01-01",
+                   last.day  = "2003-01-31",
+                   vars = "temperature_max") %>%
+  mutate(hour = sapply(time, function(x) {x |> strsplit(" ") |> pluck(1) |> pluck(2) |> as.numeric()} )) %>%
+  filter(hour == 10) %>%
+  select(!hour)
+  
+glimpse(df_long)
+
+df_wide = df_long %>%
+  mutate(time = as_factor(time)) %>%
+  pivot_wider(names_from = time, values_from = temperature_max) %>%
+  as_tibble()
+
+head(df_wide)
+```
+
+### If everything goes wrong
+
+If everything above goes wrong ~~I should retire~~ you can still use
+[`get_inmet_data_by_year()`](https://carlosdemoura.github.io/meteobr/reference/get_inmet_data_by_year.md)
+and then [`rbind()`](https://rdrr.io/r/base/cbind.html) the data sets.
+The downside of this approach is that this function downloads and
+processes the original raw data every time it’s called, which is time
+consuming.
+
+Bellow we have a way to get the same data as before, under this new
+approach.
+
+``` r
+
+vars = c("humidity", "radiation")
+
+df2003 = get_inmet_data_by_year(2003, first.day = "06-01", last.day = "12-31", vars = vars)
+df2004 = get_inmet_data_by_year(2004, vars = vars)
+df2005 = get_inmet_data_by_year(2005, first.day = "01-01", last.day = "08-31", vars = vars)
+
+df = rbind(df2003, df2004, df2005)
+glimpse(df)
+```

@@ -1,0 +1,57 @@
+# meteobr
+
+The goal of `meteobr` is to provide an easy way to get data from the
+automated meteorological stations of Brazil’s [National Institute of
+Meteorology](https://portal.inmet.gov.br/). These stations provide, at
+each hour of every day between 2000-2024, a plethora of useful data (see
+the vignette [data
+trivia](https://carlosdemoura.github.io/meteobr/articles/data_trivia.html)).
+
+## Installation
+
+You can install the development version of meteobr from
+[GitHub](https://github.com/carlosdemoura/meteobr/) with:
+
+``` r
+
+# install.packages("devtools")
+devtools::install_github("carlosdemoura/meteobr")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+
+library(meteobr)
+
+get_data(first.day = "2001-01-01", last.day = "2001-01-02")
+```
+
+# Package index
+
+## All functions
+
+- [`get_data()`](https://carlosdemoura.github.io/meteobr/reference/get_data.md)
+  : Get meteorological data within interval
+- [`get_inmet_data_by_year()`](https://carlosdemoura.github.io/meteobr/reference/get_inmet_data_by_year.md)
+  : Get data from INMET website
+- [`info_repo`](https://carlosdemoura.github.io/meteobr/reference/info_repo.md)
+  : Informations about data file
+- [`local_data()`](https://carlosdemoura.github.io/meteobr/reference/local_data.md)
+  : Get where data is stored
+- [`meteobr.max.year`](https://carlosdemoura.github.io/meteobr/reference/meteobr.max.year.md)
+  : Package maximum yaer available
+- [`set_data_locally()`](https://carlosdemoura.github.io/meteobr/reference/set_data_locally.md)
+  : Download preprocessed data
+- [`stations`](https://carlosdemoura.github.io/meteobr/reference/stations.md)
+  : Additional information about INMET's automatic stations
+
+# Articles
+
+### All vignettes
+
+- [data
+  trivia](https://carlosdemoura.github.io/meteobr/articles/data_trivia.md):
+- [example](https://carlosdemoura.github.io/meteobr/articles/example.md):

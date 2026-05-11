@@ -1,0 +1,84 @@
+# data trivia
+
+## Data trivia
+
+Let’s setup our environment.
+
+``` r
+
+library(meteobr)
+```
+
+### Meteorological data
+
+``` r
+
+df = get_data(first.day = "2001-01-01", last.day = "2001-01-02", vars = c("wind_burst", "temperature_air", "humidity"))
+head(df)
+```
+
+Bellow is the description of the variables you can access through
+[`get_data()`](https://carlosdemoura.github.io/meteobr/reference/get_data.md)
+and
+[`get_inmet_data_by_year()`](https://carlosdemoura.github.io/meteobr/reference/get_inmet_data_by_year.md).
+The time variable refers to the hour marked +1 hr. So, if its written
+that
+
+``` default
+time            station   temperature_max   humidity
+<chr>           <chr>               <dbl>      <dbl>
+2001/01/01 00   A001                 20.7         93
+2001/01/01 01   A001                 20           95
+```
+
+it means that the maximum temperature at the station A001 on the day
+2001-jan-01 between 00:00 and 01:00 UTC was 20.7 degrees Celsius. It’s
+also true that - on the same day and at the same station - 20 °C was the
+maximum temperature between 01:00 and 02:00 UTC. In a nutshell: if you
+want to check data that refers to some day in hours between 11:00 and
+13:59 UTC, you’ll need to filter the hours 11, 12 and 13. See variables
+descriptions bellow:
+
+| Column name | Original name | Unity |
+|----|----|----|
+| `time` | \*\*\*\* | UTC hour |
+| `station` | \*\*\*\* | station.id |
+| `precipitation` | PRECIPITAÇÃO TOTAL, HORÁRIO (mm) | mm |
+| `atm_pressure` | PRESSAO ATMOSFERICA AO NIVEL DA ESTACAO, HORARIA (mB) | mB |
+| `atm_pressure_max` | PRESSÃO ATMOSFERICA MAX.NA HORA ANT. (AUT) (mB) | mB |
+| `atm_pressure_min` | PRESSÃO ATMOSFERICA MIN. NA HORA ANT. (AUT) (mB) | mB |
+| `radiation` | RADIACAO GLOBAL (Kj/m²) | Kj/m² |
+| `temperature_air` | TEMPERATURA DO AR - BULBO SECO, HORARIA (°C) | °C |
+| `temperature_dew` | TEMPERATURA DO PONTO DE ORVALHO (°C) | °C |
+| `temperature_max` | TEMPERATURA MÁXIMA NA HORA ANT. (AUT) (°C) | °C |
+| `temperature_min` | TEMPERATURA MÍNIMA NA HORA ANT. (AUT) (°C) | °C |
+| `temperature_dew_max` | TEMPERATURA ORVALHO MAX. NA HORA ANT. (AUT) (°C) | °C |
+| `temperature_dew_min` | TEMPERATURA ORVALHO MIN. NA HORA ANT. (AUT) (°C) | °C |
+| `humidity_max` | UMIDADE REL. MAX. NA HORA ANT. (AUT) (%) | % |
+| `humidity_min` | UMIDADE REL. MIN. NA HORA ANT. (AUT) (%) | % |
+| `humidity` | UMIDADE RELATIVA DO AR, HORARIA (%) | % |
+| `wind_direction` | VENTO, DIREÇÃO HORARIA (gr) (° (gr)) | ° (dgr) |
+| `wind_burst_max` | VENTO, RAJADA MAXIMA (m/s) | m/s |
+| `wind_burst` | VENTO, VELOCIDADE HORARIA (m/s) | m/s |
+
+### Stations data
+
+``` r
+
+head(stations)
+```
+
+The data set `stations` contains data about INMET’s automatic stations.
+See variables descriptions bellow:
+
+| Column         | Description                                                |
+|----------------|------------------------------------------------------------|
+| `station.id`   | INMET’s id of the station                                  |
+| `station.name` | original name of the station on INMET’s website            |
+| `town.id`      | IBGE code for station’s town                               |
+| `town.name`    | name of the town in which station is located, standardized |
+| `state`        | state in which the station is located (abbreviation)       |
+| `region`       | national region in which the station is located            |
+| `lat`          | latitude of the station (meters)                           |
+| `lon`          | longitude of the station (meters)                          |
+| `alt`          | altitude of the station (meters)                           |
