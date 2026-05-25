@@ -209,6 +209,10 @@ get_data = function(first.day, last.day, vars = NULL, stations = NULL) {
       {\(.)
         if (!is.null(vars))
         dplyr::select(., all_of(c("time", "station", vars)))
+        else . }() |>
+      {\(.)
+        if (!is.null(stations))
+        dplyr::filter(., station %in% stations)
         else . }()
 
     full_data = rbind(full_data, data)
